@@ -27,7 +27,7 @@ import { PlusCircle } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
-import { addPeca, buscarPecas } from '../api/pecas/route.js';
+import { GET, POST } from '../api/pecas/route.js';
 
 interface peca {
     id: number,
@@ -44,7 +44,7 @@ export default function Layout() {
     async function enviarDados(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        await addPeca(nome, preco);
+        await POST(nome, preco);
 
         setNome("");
         setPreco("");
@@ -55,7 +55,7 @@ export default function Layout() {
     };
 
     async function receberDados() {
-        const pecasRecebidas = await buscarPecas(); // Aguarda os dados serem buscados
+        const pecasRecebidas = await GET(); // Aguarda os dados serem buscados
         setPecas(pecasRecebidas); // Atualiza o estado com as peças recebidas
 
         console.log("Peças recebidas!");

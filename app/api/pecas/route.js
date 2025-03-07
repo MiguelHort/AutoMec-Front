@@ -1,4 +1,4 @@
-export async function buscarPecas() {
+export async function GET() {
   try {
     // Altere para o endpoint correto que retorna id, nome e preço
     const response = await fetch("http://localhost:5050/pecas");
@@ -21,7 +21,7 @@ export async function buscarPecas() {
   }
 }
 
-export async function addPeca(nome, preco) {
+export async function POST(nome, preco) {
   try {
     // Altere para o endpoint correto que retorna id, nome e preço
     const response = await fetch('http://localhost:5050/pecas', {
