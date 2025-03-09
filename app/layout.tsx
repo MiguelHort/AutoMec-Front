@@ -1,13 +1,13 @@
 "use client";  // Adicione esta linha para marcar o componente como client-side
 
-import { usePathname } from 'next/navigation';  // Agora funciona no cliente
+import { usePathname } from 'next/navigation'; // Agora funciona no cliente
 
-import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
 import { BreadcrumbDemo } from "@/components/app-breadcrumb";
-import { Separator } from "@/components/ui/separator";
+import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Separator } from "@/components/ui/separator";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import "./globals.css";
 
 export default function RootLayout({
   children,
