@@ -29,7 +29,7 @@ import { useEffect, useState } from "react";
 
 import { GET, POST } from '../api/pecas/route.js';
 
-interface peca {
+interface Peca {
     id: number,
     nome: string,
     preco: number,
@@ -39,25 +39,24 @@ export default function Layout() {
     const [open, setOpen] = useState(false);
     const [nome, setNome] = useState("");
     const [preco, setPreco] = useState("");
-    const [pecas, setPecas] = useState([]);
+    const [pecas, setPecas] = useState<Peca[]>([]);
+
+    // Estados para o filtro
+    const [filtroId, setFiltroId] = useState("");
+    const [filtroNome, setFiltroNome] = useState("");
 
     async function enviarDados(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-
         await POST(nome, preco);
-
         setNome("");
         setPreco("");
-
         receberDados();
-
-        console.log("Deu certo!")
+        console.log("Peça cadastrada!");
     };
 
     async function receberDados() {
         const pecasRecebidas = await GET(); // Aguarda os dados serem buscados
         setPecas(pecasRecebidas); // Atualiza o estado com as peças recebidas
-
         console.log("Peças recebidas!");
     }
 
@@ -65,6 +64,16 @@ export default function Layout() {
         receberDados();
     }, []);
 
+    // Lista filtrada de peças
+    const pecasFiltradas = pecas.filter((peca) => {
+        const idCorrespondente =
+            filtroId.length === 0 || peca.id.toString().startsWith(filtroId);
+        const nomeCorrespondente =
+            filtroNome.length === 0 ||
+            peca.nome.toLowerCase().startsWith(filtroNome.toLowerCase());
+
+        return idCorrespondente && nomeCorrespondente;
+    });
 
     return (
         <div className="p-6 space-y-4 max-lg:p-4">
@@ -73,8 +82,18 @@ export default function Layout() {
 
                 <div className="flex items-center justify-between gap-2 w-full max-lg:flex-col">
                     <form className="flex items-center gap-2 max-lg:w-full">
-                        <Input id="idpeca" placeholder="ID da peça" />
-                        <Input id="nomepeca" placeholder="Nome da peça" />
+                        <Input
+                            id="idpeca"
+                            placeholder="ID da peça"
+                            value={filtroId}
+                            onChange={(e) => setFiltroId(e.target.value)}
+                        />
+                        <Input
+                            id="nomepeca"
+                            placeholder="Nome da peça"
+                            value={filtroNome}
+                            onChange={(e) => setFiltroNome(e.target.value)}
+                        />
                     </form>
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
@@ -131,8 +150,8 @@ export default function Layout() {
                         <TableHead>Preço</TableHead>
                     </TableHeader>
                     <TableBody>
-                        {pecas.length > 0 ? (
-                            pecas.map((peca: peca) => (
+                        {pecasFiltradas.length > 0 ? (
+                            pecasFiltradas.map((peca: Peca) => (
                                 <TableRow key={peca.id}>
                                     <TableCell>{peca.id}</TableCell>
                                     <TableCell>{peca.nome}</TableCell>
