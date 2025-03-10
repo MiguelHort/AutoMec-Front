@@ -1,7 +1,7 @@
 export async function GET() {
   try {
     // Altere para o endpoint correto que retorna id, nome e preço
-    const response = await fetch("http://automec-back-production.up.railway.app/pecas");
+    const response = await fetch("https://automec-back.railway.internal/pecas");
 
     if (!response.ok) throw new Error("Erro ao buscar peças");
 
@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(nome, preco) {
   try {
     // Altere para o endpoint correto que retorna id, nome e preço
-    const response = await fetch('http://automec-back-production.up.railway.app/pecas', {
+    const response = await fetch('https://automec-back.railway.internal/pecas', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
